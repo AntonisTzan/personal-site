@@ -1,0 +1,84 @@
+/* Basic Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+body.fade-out {
+    opacity: 0;
+}
+
+body.fade-in {
+    opacity: 1;
+}
+
+/* Main container to hold everything in place */
+.container {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-between;*/
+    align-items: center;
+    width: 80%; /* Limit width */
+    max-width: 600px; /* Maximum width */
+    height: 100%; /* Take full viewport height */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in height/width calculations */
+}
+
+/* Typing text container (doesn't affect layout of logo or input) */
+.typing-container {
+    font-size: 20px;
+    color: white;
+    white-space: normal; /* Allow wrapping of text */
+    word-wrap: break-word;
+    text-align: left;
+    width: 100%; /* Full width of container */
+    overflow-wrap: break-word; /* Prevent overflow for long words */
+    /*flex-grow: 1;  Allow typing-container to grow and push down without moving other elements*/
+    overflow: hidden;
+}
+
+
+/* Input Styles */
+input[type="text"] {
+    width: 100%;
+    /*padding: 15px;*/
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7);
+	margin-top: 20px;
+	margin-bottom:20px;
+
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+#input_div {
+    width: 100%;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Logo Styles */
+.logo {
+    width: 300px;
+	margin-top: 80px;
+    margin-bottom: 30px;
+    flex-shrink: 0; /* Prevent the logo from shrinking */
+}

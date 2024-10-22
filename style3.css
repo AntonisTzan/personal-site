@@ -1,0 +1,369 @@
+/* General styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: black;
+    color: white;
+}
+
+/* Container for the two-column layout */
+.container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Left section with the image and header */
+.left-section {
+    flex: 50%;
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover; /* Ensures the image covers the entire left section */
+}
+
+/* Right section with main text */
+.right-section {
+    flex: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 100px;  /* Adjust spacing to move text further right */
+	margin-top: -200px;
+}
+
+#first {
+	margin-top: 100px;
+}
+
+#second {
+	margin-top: 100px;
+}
+
+h1.main-text {
+    font-size: 3rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1.2;
+    color: white;
+    text-transform: uppercase;
+}
+
+h2.main-text {
+    font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 0;
+	margin-top: -15px;
+    line-height: 1.2;
+    color: white;
+    text-transform: uppercase;
+}
+
+h3.main-text {
+    font-size: 2rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1.2;
+    color: white;
+    text-transform: lowercase;
+}
+
+/* Font for quote 
+
+@font-face {
+    font-family: 'Niagato';
+    src: url('assets/fonts/niagato.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+*/
+
+@font-face {
+    font-family: 'Kashima';
+    src: url('assets/fonts/Kashima.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Quote section styling */
+.quote-section {
+    background-color: black;
+    padding: 60px 0;
+    text-align: center;
+    color: #fff;
+    font-family: 'Kashima', sans-serif; /* Apply the custom font */
+}
+
+.big-quote {
+    font-size: 8.5rem;
+    margin: 0 auto;
+    max-width: 80%;
+    line-height: 1.5;
+    letter-spacing: 3px; /* Slight letter spacing for artistic effect */
+}
+
+.quote-mark {
+    color: rgba(207, 0, 15, 0.8); /* Only the quotation marks will be red */
+}
+
+.quote-author {
+    margin-top: 20px;
+    font-size: 4rem;
+    color: #aaa;
+    font-family: 'Kashima', sans-serif; /* Apply the custom font here too */
+}
+
+/* Education section styling */
+.education-section {
+    padding: 50px 0;
+    text-align: left;
+}
+
+.education-header {
+    font-size: 3rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 15px;
+	margin-left: 35px;
+    line-height: 1.2;
+    color: white;
+    text-transform: uppercase;
+}
+
+
+/* Timeline Section */
+.timeline {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 1000px;
+    position: relative;
+}
+
+.timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.timeline-year {
+    flex: 0 0 120px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: left;
+    padding-top: 5px;
+    color: #aaa;
+    position: relative;
+}
+
+.dot {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: #aaa;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    left: 100px;  /* Position it properly to align with the text */
+	
+}
+
+.timeline-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border-left: 2px solid #aaa;
+    padding-left: 20px;
+    margin-left: 20px;
+}
+
+.timeline-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.text-content h3 {
+    margin: 0 0 10px;
+    font-size: 1.6rem;
+	font-weight: normal;
+
+    color: white;
+}
+
+
+.text-content p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+
+
+/* old Projects section styling */
+.projects-section {
+    padding: 50px 0;
+    text-align: left;
+}
+
+.projects-header {
+    font-size: 3rem;
+    font-weight: normal;
+    letter-spacing: 2px;
+    margin: 15px;
+	margin-left: 35px;
+    line-height: 1.2;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* Projects Section Styling 
+.projects-section {
+    padding: 50px 0;
+    text-align: center;
+    background-color: black;
+    color: white;
+}
+
+.projects-header {
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin-bottom: 50px;
+    color: white;
+    text-transform: uppercase;
+}*/
+
+/* Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(300px, 1fr)); /* Responsive grid: if you put auto-fit instead of 3, it fits as sees properly */ 
+    gap: 30px;
+    max-width: 1000px; /* if you put 3 cols instead of 2, use 1200px */ 
+    margin: 0 auto;
+}
+
+/* Project Cards */
+.project-card {
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1); /* Subtle shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 12px rgba(255, 255, 255, 0.2); /* More shadow on hover */
+}
+
+/* Project Images */
+.project-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Project Info */
+.project-info {
+    padding: 20px;
+    text-align: left;
+}
+
+.project-info h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.project-info p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+
+/* Ensure project links have no default styling */
+.project-card-link {
+    text-decoration: none;
+    color: inherit; /* Inherit color from the card itself */
+}
+
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .project-info h3 {
+        font-size: 1.5rem;
+    }
+    .project-info p {
+        font-size: 1rem;
+    }
+}
+
+/* Icon Section Styling */
+.icon-section {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.icon-link {
+    text-decoration: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.icon-link:hover {
+    transform: scale(1.2);
+    opacity: 0.8; /* Slight opacity change on hover */
+}
+
+/* Custom Icon Image Styling */
+.icon-img {
+    width: 50px;  /* Adjust size as needed */
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.icon-link:hover .icon-img {
+    transform: scale(1.2); /* Zoom effect on hover */
+}
+
+/* Show phone number when icon is clicked */
+.phone-number {
+    display: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.show-phone {
+    display: block;
+}
+
+/* Show mail when icon is clicked */
+.mail-address {
+    display: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.show-mail {
+    display: block;
+}

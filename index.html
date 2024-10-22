@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style2.css">
+    <title>Antonis Tzanetakis</title>
+</head>
+<body class="fade-in">
+    <div class="container">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        
+        <!-- Container for typing text that grows without shifting the other elements -->
+        <div id="typing-container" class="typing-container"></div>
+
+        <div id="input_div" style="display: none;"><input type="text" id="userInput" placeholder="Write here... (e.g. HR from Tech Company or old friend)" /></div>
+        
+        <!-- Container for the confirmation message -->
+        <div id="confirmation-container" class="typing-container" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Typing effect function
+        const text = "Hello! This is the personal site of Antonis Tzanetakis. In the following area, describe your role and press enter. I will then redirect you to the appropriate page.";
+        const typingContainer = document.getElementById('typing-container');
+        const inputDiv = document.getElementById('input_div');
+        const confirmationContainer = document.getElementById('confirmation-container');
+		
+		
+        function typeText(container, text, callback) {
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    container.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(type, 50); // Delay between each character (adjust if needed)
+                } else {
+					inputDiv.style.display = 'block';
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        window.onload = function () {
+            typeText(typingContainer, text);
+        };
+
+        // Function to handle input submission
+        function submitInput() {
+            const inputText = document.getElementById('userInput').value;
+            console.log("Sending input:", inputText);  // Log input before sending
+
+            // Trigger the fade-out effect before sending the request
+            document.body.classList.add('fade-out');
+
+            // Wait for the fade-out to finish before redirecting (delay of 500ms)
+            setTimeout(() => {
+                fetch('http://127.0.0.1:5000/classify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ input_text: inputText })
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);  // Log response status
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data);  // Log received data
+                    const result = data.result;
+
+                    // Prepare the confirmation message
+                    const confirmationText = result === "webpage_1" 
+                        ? "Very well. Then I will redirect you to the professional page of the site."
+                        : "Very well. Then I will redirect you to the fun page of the site.";
+
+                    // Show the confirmation message
+                    confirmationContainer.style.display = 'block';
+                    confirmationContainer.innerHTML = ''; // Clear previous content
+                    typeText(confirmationContainer, confirmationText, () => {
+                        // Wait for 2 seconds before redirecting
+                        setTimeout(() => {
+                            // Redirect based on classification
+                            if (result === "webpage_1") {
+                                window.location.href = "webpage1.html";
+                            } else if (result === "webpage_2") {
+                                window.location.href = "webpage2.html";
+                            } else {
+                                window.location.href = "webpage3.html";
+                            }
+                        }, 2000); // Adjust the delay as needed
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+            }, 50); // Delay for the fade-out effect to complete
+        }
+
+        // Event listener for the "Enter" key
+        document.getElementById('userInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitInput(); // Call the submit function on "Enter"
+            }
+        });
+    </script>
+</body>
+</html>
