@@ -48,21 +48,21 @@
 
 		// Initialize the page based on navigation type
 		function initializePage() {
-			// Detect if page load is due to reload
-			if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
-				// Full animation for reloads
-				typingContainer.innerHTML = '';
-				confirmationContainer.innerHTML = '';
-				confirmationContainer.style.display = 'none';
-				userInput.value = '';  // Clear input text
-				typeText(typingContainer, introText);
-			} else {
+            // Check if this is a back navigation with cache
+			if (performance.getEntriesByType("navigation")[0].type === "back_forward") {
 				// For back navigation, skip intro animation, but reset necessary fields
 				typingContainer.innerHTML = introText;
 				inputDiv.style.display = 'block';
 				confirmationContainer.innerHTML = '';
 				confirmationContainer.style.display = 'none';
 				userInput.value = '';  // Clear input text
+			} else {
+				// Full animation on reload or direct URL entry
+				typingContainer.innerHTML = '';
+				confirmationContainer.innerHTML = '';
+				confirmationContainer.style.display = 'none';
+				userInput.value = '';  // Clear input text
+				typeText(typingContainer, introText);
 			}
 		}
 
@@ -74,6 +74,7 @@
 				initializePage();
 			}
 		};
+        
         // Function to handle input submission
         function submitInput() {
             const inputText = userInput.value;
