@@ -13,43 +13,70 @@
         <!-- Container for typing text that grows without shifting the other elements -->
         <div id="typing-container" class="typing-container"></div>
 
-        <div id="input_div" style="display: none;"><input type="text" id="userInput" placeholder="Write here... (e.g. HR from Tech Company or old friend)" /></div>
+        <!-- Input field with autocomplete turned off -->
+        <div id="input_div" style="display: none;">
+            <input type="text" id="userInput" placeholder="Write here... (e.g. HR from Tech Company or old friend)" autocomplete="off" />
+        </div>
         
         <!-- Container for the confirmation message -->
         <div id="confirmation-container" class="typing-container" style="display: none;"></div>
     </div>
 
     <script>
-        // Typing effect function
-        const text = "Hello! This is the personal site of Antonis Tzanetakis. In the following area, describe your role and press enter. I will then redirect you to the appropriate page.";
-        const typingContainer = document.getElementById('typing-container');
-        const inputDiv = document.getElementById('input_div');
-        const confirmationContainer = document.getElementById('confirmation-container');
-		
-		
-        function typeText(container, text, callback) {
-            let index = 0;
+		// Typing effect text
+		const introText = "Hello! This is the personal site of Antonis Tzanetakis. In the following area, describe your role and press enter. I will then redirect you to the appropriate page.";
+		const typingContainer = document.getElementById('typing-container');
+		const inputDiv = document.getElementById('input_div');
+		const confirmationContainer = document.getElementById('confirmation-container');
+		const userInput = document.getElementById('userInput');
 
-            function type() {
-                if (index < text.length) {
-                    container.innerHTML += text.charAt(index);
-                    index++;
-                    setTimeout(type, 50); // Delay between each character (adjust if needed)
-                } else {
+		// Function to type text with animation
+		function typeText(container, text, callback) {
+			let index = 0;
+			function type() {
+				if (index < text.length) {
+					container.innerHTML += text.charAt(index);
+					index++;
+					setTimeout(type, 50);
+				} else {
 					inputDiv.style.display = 'block';
-                    if (callback) callback();
-                }
-            }
-            type();
-        }
+					if (callback) callback();
+				}
+			}
+			type();
+		}
 
-        window.onload = function () {
-            typeText(typingContainer, text);
-        };
+		// Initialize the page based on navigation type
+		function initializePage() {
+			// Detect if page load is due to reload
+			if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+				// Full animation for reloads
+				typingContainer.innerHTML = '';
+				confirmationContainer.innerHTML = '';
+				confirmationContainer.style.display = 'none';
+				userInput.value = '';  // Clear input text
+				typeText(typingContainer, introText);
+			} else {
+				// For back navigation, skip intro animation, but reset necessary fields
+				typingContainer.innerHTML = introText;
+				inputDiv.style.display = 'block';
+				confirmationContainer.innerHTML = '';
+				confirmationContainer.style.display = 'none';
+				userInput.value = '';  // Clear input text
+			}
+		}
 
+		window.onload = initializePage;
+
+		// If the page is loaded from cache (using the back button), reinitialize without full animation
+		window.onpageshow = function(event) {
+			if (event.persisted) {
+				initializePage();
+			}
+		};
         // Function to handle input submission
         function submitInput() {
-            const inputText = document.getElementById('userInput').value;
+            const inputText = userInput.value;
             console.log("Sending input:", inputText);  // Log input before sending
 
             // Trigger the fade-out effect before sending the request
@@ -66,16 +93,17 @@
                 })
                 .then(response => {
                     console.log('Response status:', response.status);  // Log response status
+                    if (!response.ok) throw new Error("Server unavailable"); // If server is unreachable
                     return response.json();
                 })
                 .then(data => {
                     console.log('Received data:', data);  // Log received data
                     const result = data.result;
 
-                    // Prepare the confirmation message
+                    // Prepare the confirmation message based on result
                     const confirmationText = result === "webpage_1" 
                         ? "Very well. Then I will redirect you to the professional page of the site."
-                        : "Very well. Then I will redirect you to the fun page of the site.";
+                        : "Very well. Then I will show you the recreational page of the site. Have fun!";
 
                     // Show the confirmation message
                     confirmationContainer.style.display = 'block';
@@ -94,12 +122,24 @@
                         }, 2000); // Adjust the delay as needed
                     });
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);
+
+                    // Show server-unavailable message
+                    confirmationContainer.style.display = 'block';
+                    confirmationContainer.innerHTML = ''; // Clear previous content
+                    typeText(confirmationContainer, "The AI gatekeeping is currently unavailable (the server is down), so I'll just redirect you to the professional page of the site.", () => {
+                        // Redirect to the professional page after showing the message
+                        setTimeout(() => {
+                            window.location.href = "webpage1.html";
+                        }, 2000); // Adjust the delay as needed
+                    });
+                });
             }, 50); // Delay for the fade-out effect to complete
         }
 
         // Event listener for the "Enter" key
-        document.getElementById('userInput').addEventListener('keypress', function (e) {
+        userInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 submitInput(); // Call the submit function on "Enter"
