@@ -173,13 +173,6 @@
 			// Open the PDF in a new tab
 			const newTab = window.open('assets/Antonis-Tzanetakis-CV.pdf', '_blank');
 
-			// Wait for the tab to open, then trigger the download
-			if (newTab) {
-				setTimeout(() => {
-					newTab.document.location = 'assets/CV.pdf';
-					newTab.close(); // Close the tab after triggering the download
-				}, 500); // Small delay to allow the new tab to open
-			}
 		});
 	</script>
 
